@@ -1,18 +1,29 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <ComingSoonHero />
   </div>
 </template>
 
 <script lang="ts">
+import ComingSoonHero from '@/components/ComingSoonHero.vue';
 import Vue from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 
 export default Vue.extend({
+  components: { ComingSoonHero },
   name: 'Home',
-  components: {
-    HelloWorld,
-  },
 });
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+.home {
+  height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    no-repeat center center / cover url('/img/bg1.jpg');
+}
+</style>
