@@ -1,6 +1,16 @@
 <template>
   <v-app>
     <router-view></router-view>
+
+    <!-- Snackbar -->
+    <v-snackbar v-model="snackbar" timeout="2000">
+      {{ snackbarMessage }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -9,6 +19,22 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'App',
+  computed: {
+    snackbar: {
+      get() {
+        return this.$store.state.snackbar;
+      },
+      set(value) {
+        this.$store.commit('displaySnackbar', {
+          message: '',
+          display: value,
+        });
+      },
+    },
+    snackbarMessage() {
+      return this.$store.state.snackbarMessage;
+    },
+  },
 });
 </script>
 
