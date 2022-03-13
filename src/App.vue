@@ -47,12 +47,41 @@ export default Vue.extend({
 }
 
 .theme--dark.v-application {
-  background-color: var(--v-background-base, #000) !important;
+  background-color: #130f40 !important;
+  background-image: linear-gradient(
+    135deg,
+    #130f40 0%,
+    #000000 74%
+  ) !important;
 }
 
 .home {
   height: 100vh;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    no-repeat center center / cover url('/img/bg1.jpg');
+    no-repeat center center / cover url('/img/bg.jpg');
+}
+
+// Custom Classes
+.blue-gradient.gradient-text {
+  background: -webkit-linear-gradient(19deg, #21d4fd 0%, #b721ff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+// Overwrite default vuetify components
+.v-navigation-drawer {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  margin: 32px;
+  height: calc(100vh - 64px) !important;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.v-navigation-drawer__border {
+  display: none;
 }
 </style>

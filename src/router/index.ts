@@ -18,6 +18,20 @@ const routes: Array<RouteConfig> = [
     name: 'Login',
     component: () => import('../views/Login.vue'),
   },
+  {
+    path: '/dashboard',
+    component: () => import('../layouts/Dashboard.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Dashboard',
+        component: () => import('../views/dashboard/Dashboard.vue'),
+        meta: {
+          requiresUserAuth: true,
+        },
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
