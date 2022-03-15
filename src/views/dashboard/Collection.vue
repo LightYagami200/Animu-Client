@@ -7,13 +7,14 @@
     </v-row>
     <v-row>
       <v-col
-        cols="12"
-        md="4"
-        lg="3"
+        cols="6"
+        sm="4"
+        md="3"
+        lg="2"
         v-for="(nft, i) in nfts"
         :key="`wallet:nft:${i}`"
       >
-        <v-card class="mx-auto">
+        <v-card class="mx-auto rounded-xl" elevation="12">
           <v-img class="white--text align-end" :src="nft.image">
             <v-card-title
               ><strong class="pr-2">{{ nft.symbol }}</strong> -
