@@ -30,6 +30,14 @@ const routes: Array<RouteConfig> = [
           requiresUserAuth: true,
         },
       },
+      {
+        path: 'collection',
+        name: 'Collection',
+        component: () => import('../views/dashboard/Collection.vue'),
+        meta: {
+          requiresUserAuth: true,
+        },
+      },
     ],
   },
 ];

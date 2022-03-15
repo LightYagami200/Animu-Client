@@ -18,6 +18,9 @@ module.exports = {
     'consistent-return': 'off',
     'no-return-assign': 'off',
     'nonblock-statement-body-position': 'off',
+    'object-curly-newline': 'off',
+    'implicit-arrow-linebreak': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
     curly: 'off',
   },
 };

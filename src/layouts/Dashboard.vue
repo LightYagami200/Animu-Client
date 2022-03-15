@@ -5,23 +5,48 @@
         <v-list-item class="mb-8 text-center">
           <v-list-item-content>
             <v-list-item-title
-              class="text-h5 font-weight-bold blue-gradient gradient-text"
+              class="text-h5 font-weight-bold secondary-text"
               >ANIMU</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item class="logout-btn" @click="logout" link>
+        <v-list-item link>
           <v-list-item-icon>
-            <v-icon color="red">mdi-power</v-icon>
+            <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="red--text">Logout</v-list-item-title>
+            <v-list-item-title>Dashboard</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item @click="$router.push('/dashboard/collection')" link>
+          <v-list-item-icon>
+            <v-icon>mdi-collage</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Collection</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <router-view></router-view>
+    <v-container>
+      <v-app-bar color="transparent" elevation="0">
+        <h3>Good Evening, {{ discordUser.username }}</h3>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="primary"
+          @click="connectWallet"
+          v-if="!wallet.publicKey"
+          ><v-icon left>mdi-wallet</v-icon> Connect Wallet</v-btn
+        >
+        <v-btn color="red" @click="disconnectWallet" v-else
+          ><v-icon left>mdi-wallet</v-icon> Disconnect Wallet</v-btn
+        >
+      </v-app-bar>
+
+      <router-view></router-view>
+    </v-container>
   </div>
 </template>
 
@@ -30,12 +55,29 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'DashboardLayout',
+  mounted() {
+    this.$store.dispatch('connectWalletEager');
+  },
+  computed: {
+    discordUser() {
+      return this.$store.state.discordUser;
+    },
+    wallet() {
+      return this.$store.state.wallet;
+    },
+  },
   methods: {
     logout() {
       localStorage.removeItem('ANIMU_USER_TOKEN');
       this.$router.replace({
         name: 'Home',
       });
+    },
+    connectWallet() {
+      this.$store.dispatch('connectWallet');
+    },
+    disconnectWallet() {
+      this.$store.dispatch('disconnectWallet');
     },
   },
 });
