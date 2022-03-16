@@ -48,6 +48,10 @@ export default new Vuex.Store({
       public_flags: 0,
       username: '',
     },
+    user: {
+      discordID: '',
+      publicKey: '',
+    },
     wallet: {
       publicKey: '',
       nfts: [] as Array<{
@@ -72,6 +76,9 @@ export default new Vuex.Store({
     },
     setDiscordUser(state, payload) {
       state.discordUser = payload;
+    },
+    setUser(state, payload) {
+      state.user = payload;
     },
     setWallet(state, payload) {
       state.wallet = payload;
@@ -164,18 +171,26 @@ export default new Vuex.Store({
 
         console.log({ signedMessage });
 
-        await axios.post(
-          `${host}/users/verify`,
-          {
-            publicKey: Array.from(signedMessage.publicKey.toBytes()),
-            signature: Array.from(signedMessage.signature),
-          },
-          {
-            headers: {
-              'x-access-token': token,
+        try {
+          const { data } = await axios.post(
+            `${host}/users/verify`,
+            {
+              publicKey: Array.from(signedMessage.publicKey.toBytes()),
+              signature: Array.from(signedMessage.signature),
             },
-          },
-        );
+            {
+              headers: {
+                'x-access-token': token,
+              },
+            },
+          );
+
+          commit('setUser', data.user);
+          commit('displaySnackbar', 'Wallet verified!');
+        } catch (e) {
+          console.error(e);
+          commit('displaySnackbar', 'Invalid signature');
+        }
       } catch (e) {
         console.error(e);
       }

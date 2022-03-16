@@ -69,6 +69,7 @@ router.beforeEach(async (to, _from, next) => {
 
       console.log({ data });
       store.commit('setDiscordUser', data.user.discord);
+      store.commit('setUser', data.user.user);
 
       console.log('token is valid');
       return next();
