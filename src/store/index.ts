@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
 import axios from 'axios';
+import { host } from '@/config';
+import { PublicKey } from '@solana/web3.js';
 
 Vue.use(Vuex);
 
@@ -19,6 +21,13 @@ declare global {
         };
       }>;
       disconnect: () => Promise<void>;
+      signMessage: (
+        encodedMessage: Uint8Array,
+        encoding: 'utf8' | 'hex' | 'base64',
+      ) => Promise<{
+        publicKey: PublicKey;
+        signature: Uint8Array;
+      }>;
     };
   }
 }
@@ -137,6 +146,36 @@ export default new Vuex.Store({
           publicKey: '',
           nfts: [],
         });
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    async verifyWallet({ commit }) {
+      const token = localStorage.getItem('ANIMU_USER_TOKEN');
+      if (!window.solana || !token) return;
+
+      try {
+        const message = 'Sign below to verify your wallet ≧◡≦';
+        const encodedMessage = new TextEncoder().encode(message);
+        const signedMessage = await window.solana.signMessage(
+          encodedMessage,
+          'utf8',
+        );
+
+        console.log({ signedMessage });
+
+        await axios.post(
+          `${host}/users/verify`,
+          {
+            publicKey: Array.from(signedMessage.publicKey.toBytes()),
+            signature: Array.from(signedMessage.signature),
+          },
+          {
+            headers: {
+              'x-access-token': token,
+            },
+          },
+        );
       } catch (e) {
         console.error(e);
       }

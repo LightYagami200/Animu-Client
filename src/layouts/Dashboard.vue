@@ -32,8 +32,6 @@
     </v-navigation-drawer>
     <v-container>
       <v-app-bar color="transparent" elevation="0">
-        <h3>Good Evening, {{ discordUser.username }}</h3>
-        <v-spacer></v-spacer>
         <v-btn
           color="primary"
           @click="connectWallet"
@@ -43,6 +41,35 @@
         <v-btn color="red" @click="disconnectWallet" v-else
           ><v-icon left>mdi-wallet</v-icon> Disconnect Wallet</v-btn
         >
+        <v-spacer></v-spacer>
+
+        <div class="d-flex align-center">
+          <v-avatar class="mx-4">
+            <v-img
+              :src="`https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.webp?size=160`"
+            ></v-img>
+          </v-avatar>
+          <div class="d-flex flex-column">
+            <p class="ma-0">Collector</p>
+            <v-menu left bottom offset-y rounded="lg">
+              <template v-slot:activator="{ on, attrs }">
+                <h5 v-bind="attrs" v-on="on">
+                  Hey, {{ discordUser.username }}
+                  <v-icon color="primary">mdi-chevron-down</v-icon>
+                </h5>
+              </template>
+
+              <v-list class="glass-list" dense>
+                <v-list-item @click="verifyWallet" link>
+                  <v-list-item-icon
+                    ><v-icon>mdi-wallet</v-icon></v-list-item-icon
+                  >
+                  <v-list-item-title>Verify Wallet</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </div>
+        </div>
       </v-app-bar>
 
       <router-view></router-view>
@@ -78,6 +105,9 @@ export default Vue.extend({
     },
     disconnectWallet() {
       this.$store.dispatch('disconnectWallet');
+    },
+    verifyWallet() {
+      this.$store.dispatch('verifyWallet');
     },
   },
 });
