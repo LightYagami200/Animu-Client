@@ -14,10 +14,6 @@
           <h2>Please wait...</h2>
         </v-col>
         <v-col cols="12" sm="12" align="center" v-if="!loading && error">
-          <v-col cols="12" sm="6" md="4" lg="3">
-            <v-img src="/img/server-down.svg" contain></v-img>
-          </v-col>
-          <br />
           <h2>{{ error }}</h2>
         </v-col>
       </v-row>
