@@ -14,31 +14,50 @@ const routes: Array<RouteConfig> = [
     component: Home,
   },
   {
+    path: '/terms-of-service',
+    name: 'TermsOfService',
+    component: () => import('../views/TermsOfService.vue'),
+  },
+  {
+    path: '/privacy-policy',
+    name: 'PrivacyPolicy',
+    component: () => import('../views/PrivacyPolicy.vue'),
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login.vue'),
   },
   {
+    path: '/beta-testers-only',
+    name: 'BetaTestersOnly',
+    component: () => import('../views/BetaTestersOnly.vue'),
+  },
+  {
     path: '/dashboard',
-    component: () => import('../layouts/Dashboard.vue'),
-    children: [
-      {
-        path: '',
-        name: 'Dashboard',
-        component: () => import('../views/dashboard/Dashboard.vue'),
-        meta: {
-          requiresUserAuth: true,
-        },
-      },
-      {
-        path: 'collection',
-        name: 'Collection',
-        component: () => import('../views/dashboard/Collection.vue'),
-        meta: {
-          requiresUserAuth: true,
-        },
-      },
-    ],
+    // component: () => import('../layouts/Dashboard.vue'),
+    component: () => import('../views/dashboard/BetaDashboard.vue'),
+    meta: {
+      requiresUserAuth: true,
+    },
+    // children: [
+    //   {
+    //     path: '',
+    //     name: 'Dashboard',
+    //     component: () => import('../views/dashboard/Dashboard.vue'),
+    //     meta: {
+    //       requiresUserAuth: true,
+    //     },
+    //   },
+    //   {
+    //     path: 'collection',
+    //     name: 'Collection',
+    //     component: () => import('../views/dashboard/Collection.vue'),
+    //     meta: {
+    //       requiresUserAuth: true,
+    //     },
+    //   },
+    // ],
   },
 ];
 
@@ -74,6 +93,14 @@ router.beforeEach(async (to, _from, next) => {
       console.log('token is valid');
       return next();
     } catch (e) {
+      // @ts-ignore
+      console.log({ e: e.response.status });
+      // @ts-ignore
+
+      if (e.response.status === 401) {
+        return next('/beta-testers-only');
+      }
+
       console.log(e);
       localStorage.removeItem('ANIMU_USER_TOKEN');
 

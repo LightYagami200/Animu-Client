@@ -185,6 +185,8 @@ export default new Vuex.Store({
             },
           );
 
+          console.log({ data });
+
           commit('setUser', data.user);
           commit('displaySnackbar', 'Wallet verified!');
         } catch (e) {

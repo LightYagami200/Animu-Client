@@ -61,7 +61,7 @@
 
               <v-list class="glass-list" dense>
                 <v-list-item
-                  v-if="wallet.publicKey && !wallet.publicKey"
+                  v-if="wallet.publicKey && !user.publicKey"
                   @click="verifyWallet"
                   link
                 >
@@ -120,7 +120,16 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
+<style>
+.dashboard {
+  background-color: #130f40 !important;
+  background-image: linear-gradient(
+    135deg,
+    #130f40 0%,
+    #000000 74%
+  ) !important;
+}
+
 .logout-btn {
   position: absolute;
   bottom: 40px;

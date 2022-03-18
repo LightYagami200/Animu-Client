@@ -4,8 +4,14 @@
       <v-row>
         <v-col cols="12" class="text-center">
           <h2 class="text-uppercase">Future of NFTs</h2>
-          <h1 class="text-uppercase">Coming Soon</h1></v-col
-        >
+          <h1 class="text-uppercase">Coming Soon</h1>
+          <v-btn
+            color="white black--text"
+            class="mt-8"
+            @click="addToDiscord"
+            ><v-icon left>mdi-discord</v-icon> Add to Discord</v-btn
+          >
+        </v-col>
       </v-row>
     </v-container>
   </div>
@@ -16,6 +22,14 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'Home',
+  methods: {
+    addToDiscord() {
+      window.open(
+        'https://discord.com/api/oauth2/authorize?client_id=585914522225868815&permissions=137439266880&scope=bot%20applications.commands',
+        '_blank',
+      );
+    },
+  },
 });
 </script>
 

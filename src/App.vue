@@ -47,15 +47,15 @@ export default Vue.extend({
 }
 
 .theme--dark.v-application {
-  background-color: #130f40 !important;
-  background-image: linear-gradient(
-    135deg,
-    #130f40 0%,
-    #000000 74%
-  ) !important;
+  background: #000000 !important;
 }
 
-.home {
+.v-btn__content {
+  overflow: visible !important;
+}
+
+.home,
+.beta-testers-only {
   height: 100vh;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     no-repeat center center / cover url('https://cdn.animu.io/img/bg.jpg');
