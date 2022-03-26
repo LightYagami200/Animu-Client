@@ -51,12 +51,30 @@
           :key="`wallet:nft:${i}`"
         >
           <v-card class="mx-auto rounded-xl" elevation="12">
-            <v-img class="white--text align-end" :src="nft.image">
+            <v-img
+              class="white--text align-end"
+              gradient="to top, rgba(0,0,0, 0.5), rgba(0,0,0,0)"
+              :src="nft.image"
+            >
+              <v-chip
+                v-if="nft.staked"
+                color="primary"
+                class="collection-chip"
+                >Staked</v-chip
+              >
               <v-card-title
                 ><strong class="pr-2">{{ nft.symbol }}</strong> -
                 {{ nft.name }}
               </v-card-title>
             </v-img>
+          </v-card>
+        </v-col>
+        <v-col v-if="wallet.loading" cols="6" sm="4" md="3" lg="2">
+          <v-card class="mx-auto rounded-xl" elevation="12">
+            <v-skeleton-loader
+              style="aspect-ratio: 1/1"
+              type="card"
+            ></v-skeleton-loader>
           </v-card>
         </v-col>
       </v-row>
@@ -114,5 +132,11 @@ export default Vue.extend({
     #130f40 0%,
     #000000 74%
   ) !important;
+}
+
+.collection-chip {
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
 </style>

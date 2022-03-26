@@ -58,7 +58,7 @@ export default Vue.extend({
 .beta-testers-only {
   height: 100vh;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    no-repeat center center / cover url('https://cdn.animu.io/img/bg.jpg');
+    no-repeat center center / cover url('/img/bg.jpg');
 }
 
 // Custom Classes

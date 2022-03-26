@@ -3,9 +3,47 @@ import Vuex from 'vuex';
 import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
 import axios from 'axios';
 import { host } from '@/config';
-import { PublicKey } from '@solana/web3.js';
+import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
+import {
+  GemBankClient,
+  GemFarmClient,
+  GEM_BANK_PROG_ID,
+  GEM_FARM_PROG_ID,
+} from '@gemworks/gem-farm-ts';
+import bankIdl from '@/assets/gem_bank.json';
+import farmIdl from '@/assets/gem_farm.json';
+import { createFakeWallet } from '@/utils/wallets';
+import { getStakedNFTs } from '@/utils/nfts';
 
+// Init
 Vue.use(Vuex);
+
+const connection = new Connection(
+  clusterApiUrl('mainnet-beta'),
+  'confirmed',
+);
+
+// -> Farm IDs
+// --> This is temporary - as we get more creators, this will be replaced with a call to backend
+const farmIds = ['AuHnvdxt1SkLgRj9yiLVUYiYajk3MjGQpX9WsLEgr3F9'];
+
+const farmClient = new GemFarmClient(
+  connection,
+  createFakeWallet(),
+  // @ts-ignore
+  farmIdl,
+  GEM_FARM_PROG_ID,
+  bankIdl,
+  GEM_FARM_PROG_ID,
+);
+
+const bankClient = new GemBankClient(
+  connection,
+  createFakeWallet(),
+  // @ts-ignore
+  bankIdl,
+  GEM_BANK_PROG_ID,
+);
 
 declare global {
   interface Window {
@@ -16,9 +54,7 @@ declare global {
       }?: {
         onlyIfTrusted: boolean;
       }) => Promise<{
-        publicKey: {
-          toString: () => string;
-        };
+        publicKey: PublicKey;
       }>;
       disconnect: () => Promise<void>;
       signMessage: (
@@ -54,6 +90,7 @@ export default new Vuex.Store({
     },
     wallet: {
       publicKey: '',
+      loading: false,
       nfts: [] as Array<{
         name: string;
         symbol: string;
@@ -61,6 +98,7 @@ export default new Vuex.Store({
         updateAuthority: string;
         arweaveURI: string;
         image: string;
+        staked: boolean;
       }>,
     },
   },
@@ -83,6 +121,12 @@ export default new Vuex.Store({
     setWallet(state, payload) {
       state.wallet = payload;
     },
+    setWalletLoading(state, loading: boolean) {
+      state.wallet.loading = loading;
+    },
+    addNFTs(state, { nfts }) {
+      state.wallet.nfts.push(...nfts);
+    },
   },
   actions: {
     async connectWalletEager({ commit }) {
@@ -90,6 +134,8 @@ export default new Vuex.Store({
 
       try {
         const resp = await window.solana.connect({ onlyIfTrusted: true });
+
+        commit('setWalletLoading', true);
 
         const nftArray = await getParsedNftAccountsByOwner({
           publicAddress: resp.publicKey.toString(),
@@ -101,6 +147,7 @@ export default new Vuex.Store({
 
         commit('setWallet', {
           publicKey: resp.publicKey.toString(),
+          loading: true,
           nfts: nftArray.map((nft) => ({
             name: nft.data.name,
             symbol: nft.data.symbol,
@@ -108,8 +155,47 @@ export default new Vuex.Store({
             updateAuthority: nft.updateAuthority,
             arweaveURI: nft.data.uri,
             image: arweave.find((ar) => ar.name === nft.data.name)?.image,
+            staked: false,
           })),
         });
+
+        // -> Get staked NFTs
+        const stakedNFTs = (
+          await Promise.all(
+            farmIds.map((f) =>
+              getStakedNFTs(
+                connection,
+                farmClient,
+                bankClient,
+                new PublicKey(f),
+                resp.publicKey,
+              ),
+            ),
+          )
+        ).flat();
+
+        console.time('Fetch Arweave Staked NFTS');
+        const arweaveStaked = (
+          await Promise.all(
+            stakedNFTs.map((nft) => axios.get(nft.data.uri)),
+          )
+        ).map(({ data }) => data);
+        console.timeEnd('Fetch Arweave Staked NFTS');
+
+        commit('addNFTs', {
+          nfts: stakedNFTs.map((nft) => ({
+            name: nft.data.name,
+            symbol: nft.data.symbol,
+            mint: nft.mint,
+            updateAuthority: nft.updateAuthority,
+            arweaveURI: nft.data.uri,
+            image: arweaveStaked.find((ar) => ar.name === nft.data.name)
+              ?.image,
+            staked: false,
+          })),
+        });
+
+        commit('setWalletLoading', false);
       } catch (e) {
         console.error(e);
       }

@@ -21,6 +21,7 @@ module.exports = {
     'object-curly-newline': 'off',
     'implicit-arrow-linebreak': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    'function-paren-newline': 'off',
     curly: 'off',
   },
 };

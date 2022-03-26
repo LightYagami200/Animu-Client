@@ -15,7 +15,7 @@
         :key="`wallet:nft:${i}`"
       >
         <v-card class="mx-auto rounded-xl" elevation="12">
-          <v-img class="white--text align-end" :src="nft.image">
+          <v-img :src="nft.image" class="white--text align-end">
             <v-card-title
               ><strong class="pr-2">{{ nft.symbol }}</strong> -
               {{ nft.name }}
