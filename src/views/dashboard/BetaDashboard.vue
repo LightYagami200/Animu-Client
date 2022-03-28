@@ -28,6 +28,10 @@
               ><v-icon left>mdi-shield-check-outline</v-icon> Verify
               Wallet</v-btn
             >
+
+            <v-btn color="red" @click="logout" class="ml-4"
+              ><v-icon left>mdi-power</v-icon> Logout</v-btn
+            >
           </div>
         </v-col>
       </v-row>

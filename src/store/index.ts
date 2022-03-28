@@ -191,7 +191,7 @@ export default new Vuex.Store({
             arweaveURI: nft.data.uri,
             image: arweaveStaked.find((ar) => ar.name === nft.data.name)
               ?.image,
-            staked: false,
+            staked: true,
           })),
         });
 
@@ -218,6 +218,7 @@ export default new Vuex.Store({
 
         commit('setWallet', {
           publicKey: resp.publicKey.toString(),
+          loading: true,
           nfts: nftArray.map((nft) => ({
             name: nft.data.name,
             symbol: nft.data.symbol,
@@ -227,6 +228,44 @@ export default new Vuex.Store({
             image: arweave.find((ar) => ar.name === nft.data.name)?.image,
           })),
         });
+
+        // -> Get staked NFTs
+        const stakedNFTs = (
+          await Promise.all(
+            farmIds.map((f) =>
+              getStakedNFTs(
+                connection,
+                farmClient,
+                bankClient,
+                new PublicKey(f),
+                resp.publicKey,
+              ),
+            ),
+          )
+        ).flat();
+
+        console.time('Fetch Arweave Staked NFTS');
+        const arweaveStaked = (
+          await Promise.all(
+            stakedNFTs.map((nft) => axios.get(nft.data.uri)),
+          )
+        ).map(({ data }) => data);
+        console.timeEnd('Fetch Arweave Staked NFTS');
+
+        commit('addNFTs', {
+          nfts: stakedNFTs.map((nft) => ({
+            name: nft.data.name,
+            symbol: nft.data.symbol,
+            mint: nft.mint,
+            updateAuthority: nft.updateAuthority,
+            arweaveURI: nft.data.uri,
+            image: arweaveStaked.find((ar) => ar.name === nft.data.name)
+              ?.image,
+            staked: true,
+          })),
+        });
+
+        commit('setWalletLoading', false);
       }
     },
     async disconnectWallet({ commit }) {

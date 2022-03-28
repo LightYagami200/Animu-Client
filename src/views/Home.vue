@@ -11,6 +11,12 @@
             @click="addToDiscord"
             ><v-icon left>mdi-discord</v-icon> Add to Discord</v-btn
           >
+          <v-btn
+            color="white--text black"
+            class="mt-8 ml-2"
+            @click="$router.push('/dashboard')"
+            ><v-icon left>mdi-discord</v-icon> Login With Discord</v-btn
+          >
         </v-col>
       </v-row>
     </v-container>
