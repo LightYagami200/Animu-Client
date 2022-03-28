@@ -18,6 +18,11 @@
             ><v-icon left>mdi-discord</v-icon> Login With Discord</v-btn
           >
         </v-col>
+        <v-col cols="12" class="text-center mt-8">
+          <v-btn @click="openTwitter" text
+            ><v-icon left>mdi-twitter</v-icon>Follow on Twitter</v-btn
+          >
+        </v-col>
       </v-row>
     </v-container>
   </div>
@@ -34,6 +39,9 @@ export default Vue.extend({
         'https://discord.com/api/oauth2/authorize?client_id=585914522225868815&permissions=137439266880&scope=bot%20applications.commands',
         '_blank',
       );
+    },
+    openTwitter() {
+      window.open('https://twitter.com/animu_chan_', '_blank');
     },
   },
 });
