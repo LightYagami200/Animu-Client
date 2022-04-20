@@ -3,7 +3,6 @@ import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 import { host } from '@/config';
 import store from '@/store';
-import Home from '@/views/Home.vue';
 
 Vue.use(VueRouter);
 
@@ -11,7 +10,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: () => import('../views/Home.vue'),
   },
   {
     path: '/terms-of-service',
