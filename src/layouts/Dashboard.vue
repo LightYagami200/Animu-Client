@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard-layout" style="height: 100%">
     <v-navigation-drawer dark permanent absolute>
       <v-list dense nav>
         <v-list-item class="mb-8 text-center">
@@ -11,7 +11,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link>
+        <v-list-item link @click="$router.push('/dashboard')">
           <v-list-item-icon>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-icon>
@@ -20,27 +20,21 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item @click="$router.push('/dashboard/collection')" link>
+        <v-list-item
+          link
+          @click="$router.push('/dashboard/my-collections')"
+        >
           <v-list-item-icon>
-            <v-icon>mdi-collage</v-icon>
+            <v-icon>mdi-image-multiple</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>Collection</v-list-item-title>
+            <v-list-item-title>My Collections</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-container>
       <v-app-bar color="transparent" elevation="0">
-        <v-btn
-          color="primary"
-          @click="connectWallet"
-          v-if="!wallet.publicKey"
-          ><v-icon left>mdi-wallet</v-icon> Connect Wallet</v-btn
-        >
-        <v-btn color="red" @click="disconnectWallet" v-else
-          ><v-icon left>mdi-wallet</v-icon> Disconnect Wallet</v-btn
-        >
         <v-spacer></v-spacer>
 
         <div class="d-flex align-center">
@@ -50,11 +44,10 @@
             ></v-img>
           </v-avatar>
           <div class="d-flex flex-column">
-            <p class="ma-0">Collector</p>
             <v-menu left bottom offset-y rounded="lg">
               <template v-slot:activator="{ on, attrs }">
                 <h5 v-bind="attrs" v-on="on">
-                  Hey, {{ discordUser.username }}
+                  {{ discordUser.username }}
                   <v-icon color="primary">mdi-chevron-down</v-icon>
                 </h5>
               </template>
@@ -70,13 +63,24 @@
                   >
                   <v-list-item-title>Verify Wallet</v-list-item-title>
                 </v-list-item>
+
+                <v-list-item @click="logout" link>
+                  <v-list-item-icon
+                    ><v-icon class="red--text"
+                      >mdi-power</v-icon
+                    ></v-list-item-icon
+                  >
+                  <v-list-item-title>Logout</v-list-item-title>
+                </v-list-item>
               </v-list>
             </v-menu>
           </div>
         </div>
       </v-app-bar>
 
-      <router-view></router-view>
+      <div class="dashboard-view">
+        <router-view></router-view>
+      </div>
     </v-container>
   </div>
 </template>
@@ -121,13 +125,18 @@ export default Vue.extend({
 </script>
 
 <style>
-.dashboard {
+.dashboard-layout {
   background-color: #130f40 !important;
   background-image: linear-gradient(
     135deg,
     #130f40 0%,
     #000000 74%
   ) !important;
+}
+
+.dashboard-view {
+  max-width: calc(100% - 512px);
+  margin: 0 auto;
 }
 
 .logout-btn {

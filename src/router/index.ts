@@ -35,29 +35,28 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/dashboard',
-    // component: () => import('../layouts/Dashboard.vue'),
-    component: () => import('../views/dashboard/BetaDashboard.vue'),
+    component: () => import('../layouts/Dashboard.vue'),
     meta: {
       requiresUserAuth: true,
     },
-    // children: [
-    //   {
-    //     path: '',
-    //     name: 'Dashboard',
-    //     component: () => import('../views/dashboard/Dashboard.vue'),
-    //     meta: {
-    //       requiresUserAuth: true,
-    //     },
-    //   },
-    //   {
-    //     path: 'collection',
-    //     name: 'Collection',
-    //     component: () => import('../views/dashboard/Collection.vue'),
-    //     meta: {
-    //       requiresUserAuth: true,
-    //     },
-    //   },
-    // ],
+    children: [
+      {
+        path: '',
+        name: 'Dashboard',
+        component: () => import('../views/dashboard/Dashboard.vue'),
+        meta: {
+          requiresUserAuth: true,
+        },
+      },
+      {
+        path: 'my-collections',
+        name: 'Dashboard',
+        component: () => import('../views/dashboard/MyCollections.vue'),
+        meta: {
+          requiresUserAuth: true,
+        },
+      },
+    ],
   },
 ];
 

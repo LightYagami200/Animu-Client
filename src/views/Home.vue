@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <v-container class="fill-height">
+    <v-container fill-height>
       <v-row>
         <v-col cols="12" class="text-center">
           <h2 class="text-uppercase">Future of NFTs</h2>
