@@ -43,7 +43,10 @@ export default Vue.extend({
 
 * {
   font-family: 'Poppins', sans-serif;
-  overflow: hidden !important;
+}
+
+html {
+  overflow-y: auto !important;
 }
 
 .theme--dark.v-application {
@@ -88,6 +91,13 @@ export default Vue.extend({
   background: rgba(255, 255, 255, 0.1) !important;
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
