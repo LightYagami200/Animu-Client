@@ -97,7 +97,6 @@ html {
 
 .glass {
   background: rgba(255, 255, 255, 0.1) !important;
-  border-radius: 8px !important;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }

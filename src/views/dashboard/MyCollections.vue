@@ -2,9 +2,50 @@
   <div class="my-collections">
     <v-container fill-height>
       <v-row>
-        <v-col cols="12" md="4" lg="3">
-          <v-card class="glass" @click="openCreateCollectionModal">
-            <v-card-text class="text-center">
+        <v-col
+          cols="12"
+          md="6"
+          lg="4"
+          v-for="collection of collections"
+          :key="collection._id"
+        >
+          <v-card class="mx-auto rounded-xl" elevation="12">
+            <v-img
+              class="white--text align-end"
+              gradient="to top, rgba(0,0,0, 0.5), rgba(0,0,0,0)"
+              :src="
+                collection.banner ||
+                'https://peacehumanity.org/wp-content/uploads/2021/10/placeholder-236.png'
+              "
+            >
+              <v-card-title>
+                {{ collection.name }}
+              </v-card-title>
+            </v-img>
+          </v-card>
+        </v-col>
+        <v-col v-if="collectionsLoading" cols="12" md="6" lg="4">
+          <v-card
+            class="mx-auto rounded-xl"
+            elevation="12"
+            style="height: 100%"
+          >
+            <v-skeleton-loader
+              style="height: 100%"
+              type="card"
+            ></v-skeleton-loader>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="6" lg="4">
+          <v-card
+            class="glass rounded-xl"
+            @click="openCreateCollectionModal"
+            style="height: 100%"
+          >
+            <v-card-text
+              class="d-flex justify-center align-center"
+              style="height: 100%"
+            >
               <v-icon>mdi-plus</v-icon>
             </v-card-text>
           </v-card>
@@ -84,9 +125,23 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'MyCollections',
+  async mounted() {
+    const { data: collections } = await axios.get(
+      `${host}/collections/me`,
+      {
+        headers: {
+          'x-access-token': localStorage.getItem('ANIMU_USER_TOKEN')!,
+        },
+      },
+    );
+
+    this.collections = collections;
+    this.collectionsLoading = false;
+  },
   data() {
     return {
       collections: [],
+      collectionsLoading: true,
       createCollection: {
         dialog: false,
         isValid: false,
@@ -107,10 +162,18 @@ export default Vue.extend({
       this.createCollection.isLoading = true;
 
       try {
-        await axios.post(`${host}/api/v1/collections`, {
-          name: this.createCollection.name,
-          description: this.createCollection.description,
-        });
+        await axios.post(
+          `${host}/collections`,
+          {
+            name: this.createCollection.name,
+            description: this.createCollection.description,
+          },
+          {
+            headers: {
+              'x-access-token': localStorage.getItem('ANIMU_USER_TOKEN')!,
+            },
+          },
+        );
 
         this.createCollection.dialog = false;
         this.createCollection.name = '';
