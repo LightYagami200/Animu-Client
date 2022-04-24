@@ -2,6 +2,11 @@
   <div class="my-collections">
     <v-container fill-height>
       <v-row>
+        <v-col cols="12">
+          <h2>My Collections</h2>
+        </v-col>
+      </v-row>
+      <v-row>
         <v-col
           cols="12"
           md="6"

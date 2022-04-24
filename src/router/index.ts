@@ -50,8 +50,16 @@ const routes: Array<RouteConfig> = [
       },
       {
         path: 'my-collections',
-        name: 'Dashboard',
+        name: 'My Collections',
         component: () => import('../views/dashboard/MyCollections.vue'),
+        meta: {
+          requiresUserAuth: true,
+        },
+      },
+      {
+        path: 'collections',
+        name: 'Collections',
+        component: () => import('../views/dashboard/Collections.vue'),
         meta: {
           requiresUserAuth: true,
         },

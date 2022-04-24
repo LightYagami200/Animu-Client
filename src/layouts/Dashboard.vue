@@ -11,7 +11,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link @click="$router.push('/dashboard')">
+        <v-list-item link to="/dashboard" exact>
           <v-list-item-icon>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-icon>
@@ -20,15 +20,21 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item
-          link
-          @click="$router.push('/dashboard/my-collections')"
-        >
+        <v-list-item link to="/dashboard/my-collections">
           <v-list-item-icon>
             <v-icon>mdi-image-multiple</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>My Collections</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link to="/dashboard/collections">
+          <v-list-item-icon>
+            <v-icon>mdi-image-multiple-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Collections</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
