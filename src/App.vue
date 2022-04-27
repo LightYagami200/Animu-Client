@@ -1,6 +1,8 @@
 <template>
   <v-app>
-    <router-view></router-view>
+    <app-layout>
+      <router-view></router-view>
+    </app-layout>
 
     <!-- Snackbar -->
     <v-snackbar v-model="snackbar" timeout="2000">
@@ -16,8 +18,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import AppLayout from './layouts/AppLayout.vue';
 
 export default Vue.extend({
+  components: { AppLayout },
   name: 'App',
   computed: {
     snackbar: {
@@ -75,12 +79,19 @@ html {
 // Overwrite default vuetify components
 .v-navigation-drawer {
   background: rgba(255, 255, 255, 0.1) !important;
-  border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  margin: 32px;
-  height: calc(100vh - 64px) !important;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+}
+
+.pc-nav-drawer {
+  border-radius: 16px;
+  margin: 32px;
+  height: calc(100vh - 64px) !important;
+}
+
+.mobile-nav-drawer {
+  background: rgba(0, 0, 0, 0.3) !important;
 }
 
 .v-navigation-drawer__border {
