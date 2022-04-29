@@ -28,3 +28,11 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.collection-chip {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+</style>
