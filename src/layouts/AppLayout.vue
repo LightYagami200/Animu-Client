@@ -5,10 +5,15 @@
 </template>
 
 <script>
+import Vue from 'vue';
+
 const defaultLayout = 'AppLayoutDefault';
 
-export default {
+export default Vue.extend({
   name: 'AppLayout',
+  mounted() {
+    this.$store.dispatch('connectWalletEager');
+  },
   computed: {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     layout() {
@@ -16,5 +21,5 @@ export default {
       return () => import(`@/layouts/${layout}.vue`);
     },
   },
-};
+});
 </script>

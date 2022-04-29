@@ -29,11 +29,6 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Login.vue'),
   },
   {
-    path: '/beta-testers-only',
-    name: 'BetaTestersOnly',
-    component: () => import('../views/BetaTestersOnly.vue'),
-  },
-  {
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../views/Dashboard.vue'),
@@ -51,7 +46,7 @@ const routes: Array<RouteConfig> = [
         name: 'Collections',
         component: () => import('../views/collections/Collections.vue'),
         meta: {
-          requiresUserAuth: true,
+          optionalUserAuth: true,
           layout: 'AppLayoutDashboard',
         },
       },
@@ -77,10 +72,7 @@ const router = new VueRouter({
 router.beforeEach(async (to, _from, next) => {
   if (to.meta?.requiresUserAuth) {
     const token = localStorage.getItem('ANIMU_USER_TOKEN');
-    console.log({ token });
     if (!token) return next('/login');
-
-    console.log('checking token');
 
     try {
       const { data } = await axios.post(
@@ -93,21 +85,36 @@ router.beforeEach(async (to, _from, next) => {
         },
       );
 
-      console.log({ data });
       store.commit('setDiscordUser', data.user.discord);
       store.commit('setUser', data.user.user);
 
-      console.log('token is valid');
       return next();
     } catch (e) {
-      // @ts-ignore
-      console.log({ e: e.response.status });
-      // @ts-ignore
+      console.log(e);
+      localStorage.removeItem('ANIMU_USER_TOKEN');
 
-      if (e.response.status === 401) {
-        return next('/beta-testers-only');
-      }
+      return next('/login');
+    }
+  } else if (to.meta?.optionalUserAuth) {
+    const token = localStorage.getItem('ANIMU_USER_TOKEN');
+    if (!token) return next();
 
+    try {
+      const { data } = await axios.post(
+        `${host}/users/auth`,
+        {},
+        {
+          headers: {
+            'x-access-token': token,
+          },
+        },
+      );
+
+      store.commit('setDiscordUser', data.user.discord);
+      store.commit('setUser', data.user.user);
+
+      return next();
+    } catch (e) {
       console.log(e);
       localStorage.removeItem('ANIMU_USER_TOKEN');
 

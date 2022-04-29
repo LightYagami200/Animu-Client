@@ -17,7 +17,16 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/dashboard" v-if="user">
+        <v-list-item link to="/login" v-if="!user.discordId">
+          <v-list-item-icon>
+            <v-icon>mdi-login</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Login</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link to="/dashboard" v-if="user.discordId">
           <v-list-item-icon>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-icon>
@@ -35,7 +44,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/me" v-if="user">
+        <v-list-item link to="/me" v-if="user.discordId">
           <v-list-item-icon>
             <v-icon>mdi-image-multiple</v-icon>
           </v-list-item-icon>
@@ -55,16 +64,16 @@
       v-model="showDrawer"
     >
       <v-list dense nav>
-        <v-list-item class="mb-8 text-center">
+        <v-list-item link to="/login" v-if="!user.discordId">
+          <v-list-item-icon>
+            <v-icon>mdi-login</v-icon>
+          </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title
-              class="text-h5 font-weight-bold secondary-text"
-              >ANIMU</v-list-item-title
-            >
+            <v-list-item-title>Login</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/dashboard" v-if="user">
+        <v-list-item link to="/dashboard" v-if="user.discordId">
           <v-list-item-icon>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-icon>
@@ -82,7 +91,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/me" v-if="user">
+        <v-list-item link to="/me" v-if="user.discordId">
           <v-list-item-icon>
             <v-icon>mdi-image-multiple</v-icon>
           </v-list-item-icon>
@@ -109,10 +118,6 @@ export default Vue.extend({
       this.showDrawer = !this.showDrawer;
     },
   },
-  mounted() {
-    // @ts-ignore
-    this.$store.dispatch('connectWalletEager');
-  },
   data() {
     return {
       showDrawer: false,
@@ -133,12 +138,6 @@ export default Vue.extend({
     },
   },
   methods: {
-    logout() {
-      localStorage.removeItem('ANIMU_USER_TOKEN');
-      this.$router.replace({
-        name: 'Home',
-      });
-    },
     connectWallet() {
       this.$store.dispatch('connectWallet');
     },
@@ -148,13 +147,3 @@ export default Vue.extend({
   },
 });
 </script>
-
-<style>
-.logout-btn {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  width: calc(100% - 16px);
-  transform: translateX(-50%);
-}
-</style>

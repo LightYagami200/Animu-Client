@@ -26,9 +26,11 @@ export default Vue.extend({
   computed: {
     snackbar: {
       get() {
+        // @ts-ignore
         return this.$store.state.snackbar;
       },
       set(value) {
+        // @ts-ignore
         this.$store.commit('displaySnackbar', {
           message: '',
           display: value,
@@ -55,6 +57,10 @@ html {
 
 .theme--dark.v-application {
   background: #000000 !important;
+}
+
+.v-toolbar__content {
+  width: 100% !important;
 }
 
 .v-btn__content {

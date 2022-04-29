@@ -85,7 +85,7 @@ export default new Vuex.Store({
       username: '',
     },
     user: {
-      discordID: '',
+      discordId: '',
       publicKey: '',
     },
     wallet: {
