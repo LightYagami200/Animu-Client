@@ -40,24 +40,12 @@
         v-for="(nft, i) in nfts"
         :key="`wallet:nft:${i}`"
       >
-        <v-card class="mx-auto rounded-xl" elevation="12">
-          <v-img
-            class="white--text align-end"
-            gradient="to top, rgba(0,0,0, 0.5), rgba(0,0,0,0)"
-            :src="nft.image"
-          >
-            <v-chip
-              v-if="nft.staked"
-              color="primary"
-              class="collection-chip"
-              >Staked</v-chip
-            >
-            <v-card-title
-              ><strong class="pr-2">{{ nft.symbol }}</strong> -
-              {{ nft.name }}
-            </v-card-title>
-          </v-img>
-        </v-card>
+        <NFTCard
+          :image="nft.image"
+          :name="nft.name"
+          :staked="nft.staked"
+          :symbol="nft.symbol"
+        />
       </v-col>
       <v-col v-if="wallet.loading" cols="6" sm="4" md="3" lg="2">
         <v-card class="mx-auto rounded-xl" elevation="12">
@@ -72,9 +60,13 @@
 </template>
 
 <script lang="ts">
+import NFTCard from '@/components/dashboard/NFTCard.vue';
 import Vue from 'vue';
 
 export default Vue.extend({
+  components: {
+    NFTCard,
+  },
   name: 'BetaDashboard',
   mounted() {
     this.$store.dispatch('connectWalletEager');

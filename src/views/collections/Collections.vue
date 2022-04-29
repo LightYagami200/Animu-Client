@@ -14,26 +14,11 @@
         v-for="collection of collections"
         :key="collection._id"
       >
-        <v-card
-          class="mx-auto rounded-xl"
-          elevation="12"
-          @click="
-            $router.push(`/dashboard/collections/${collection.slug}`)
-          "
-        >
-          <v-img
-            class="white--text align-end"
-            gradient="to top, rgba(0,0,0, 0.5), rgba(0,0,0,0)"
-            :src="
-              collection.banner ||
-              'https://peacehumanity.org/wp-content/uploads/2021/10/placeholder-236.png'
-            "
-          >
-            <v-card-title>
-              {{ collection.name }}
-            </v-card-title>
-          </v-img>
-        </v-card>
+        <collection-card
+          :name="collection.name"
+          :banner="collection.banner"
+          :slug="collection.slug"
+        />
       </v-col>
       <v-col v-if="collectionsLoading" cols="12" md="6" lg="4">
         <v-card
@@ -134,11 +119,13 @@
 </template>
 
 <script lang="ts">
+import CollectionCard from '@/components/collections/CollectionCard.vue';
 import { host } from '@/config';
 import axios from 'axios';
 import Vue from 'vue';
 
 export default Vue.extend({
+  components: { CollectionCard },
   name: 'Collections',
   async mounted() {
     if (this.loadLoggedInUserCollections) {

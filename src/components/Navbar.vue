@@ -18,7 +18,7 @@
       </div>
 
       <div class="app-bar-item">
-        <div class="d-flex align-center" v-if="user.discordId">
+        <div class="d-flex align-center" v-if="user.discordID">
           <v-avatar class="mx-4">
             <v-img
               :src="`https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.webp?size=160`"

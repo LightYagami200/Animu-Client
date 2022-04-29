@@ -17,7 +17,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/login" v-if="!user.discordId">
+        <v-list-item link to="/login" v-if="!user.discordID">
           <v-list-item-icon>
             <v-icon>mdi-login</v-icon>
           </v-list-item-icon>
@@ -26,7 +26,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/dashboard" v-if="user.discordId">
+        <v-list-item link to="/dashboard" v-if="user.discordID">
           <v-list-item-icon>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-icon>
@@ -44,7 +44,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/me" v-if="user.discordId">
+        <v-list-item link to="/me" v-if="user.discordID">
           <v-list-item-icon>
             <v-icon>mdi-image-multiple</v-icon>
           </v-list-item-icon>
@@ -64,7 +64,7 @@
       v-model="showDrawer"
     >
       <v-list dense nav>
-        <v-list-item link to="/login" v-if="!user.discordId">
+        <v-list-item link to="/login" v-if="!user.discordID">
           <v-list-item-icon>
             <v-icon>mdi-login</v-icon>
           </v-list-item-icon>
@@ -73,7 +73,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/dashboard" v-if="user.discordId">
+        <v-list-item link to="/dashboard" v-if="user.discordID">
           <v-list-item-icon>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-icon>
@@ -91,7 +91,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/me" v-if="user.discordId">
+        <v-list-item link to="/me" v-if="user.discordID">
           <v-list-item-icon>
             <v-icon>mdi-image-multiple</v-icon>
           </v-list-item-icon>
