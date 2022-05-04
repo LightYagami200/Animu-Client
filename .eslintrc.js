@@ -24,5 +24,6 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     'function-paren-newline': 'off',
     curly: 'off',
+    indent: 'off',
   },
 };

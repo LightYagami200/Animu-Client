@@ -2,7 +2,7 @@
   <v-card
     class="mx-auto rounded-xl collection-card"
     elevation="12"
-    @click="$router.push(`/dashboard/collections/${slug}`)"
+    @click="$router.push(`/collections/${slug}`)"
   >
     <v-img
       class="white--text align-end"

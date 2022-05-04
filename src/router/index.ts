@@ -50,6 +50,15 @@ const routes: Array<RouteConfig> = [
           layout: 'AppLayoutDashboard',
         },
       },
+      {
+        path: ':slug',
+        name: 'Collection',
+        component: () => import('../views/collections/Collection.vue'),
+        meta: {
+          optionalUserAuth: true,
+          layout: 'AppLayoutDashboard',
+        },
+      },
     ],
   },
   {
