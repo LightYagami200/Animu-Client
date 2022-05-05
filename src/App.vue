@@ -90,14 +90,8 @@ html {
   -webkit-backdrop-filter: blur(5px);
 }
 
-.pc-nav-drawer {
-  border-radius: 16px;
-  margin: 32px;
-  height: calc(100vh - 64px) !important;
-}
-
-.mobile-nav-drawer {
-  background: rgba(0, 0, 0, 0.3) !important;
+.nav-drawer {
+  padding: 16px;
 }
 
 .v-navigation-drawer__border {
@@ -116,5 +110,10 @@ html {
   background: rgba(255, 255, 255, 0.1) !important;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+}
+
+.logout {
+  position: absolute !important;
+  bottom: 16px !important;
 }
 </style>

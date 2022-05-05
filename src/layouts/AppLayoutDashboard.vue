@@ -24,7 +24,7 @@ export default Vue.extend({
   name: 'AppLayoutPage',
   data() {
     return {
-      drawer: false,
+      drawer: true,
     };
   },
 });

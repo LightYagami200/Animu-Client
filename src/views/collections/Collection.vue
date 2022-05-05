@@ -16,7 +16,17 @@
               "
             >
               <div class="collection-btns">
-                <v-btn icon class="mr-2"><v-icon>mdi-cog</v-icon></v-btn>
+                <v-btn
+                  v-if="collection.owner === discordUser.id"
+                  @click="
+                    $router.push(
+                      '/collections/' + collection.slug + '/manage',
+                    )
+                  "
+                  icon
+                  class="mr-2"
+                  ><v-icon>mdi-cog</v-icon></v-btn
+                >
                 <v-btn icon @click="shareCollection"
                   ><v-icon>mdi-share</v-icon></v-btn
                 >
@@ -80,9 +90,17 @@ export default Vue.extend({
     return {
       collection: {} as {
         name: string;
+        image: string;
+        banner: string;
+        owner: string;
       },
       collectionLoading: true,
     };
+  },
+  computed: {
+    discordUser() {
+      return this.$store.state.discordUser;
+    },
   },
   methods: {
     async shareCollection() {

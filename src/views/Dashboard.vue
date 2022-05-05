@@ -18,6 +18,13 @@
           <v-btn color="red" @click="disconnectWallet" v-else
             ><v-icon left>mdi-wallet</v-icon> Disconnect Wallet</v-btn
           >
+          <v-btn
+            color="green"
+            class="ml-2"
+            @click="verifyWallet"
+            v-if="!user.publicKey"
+            ><v-icon left>mdi-shield-check</v-icon> Verify Wallet</v-btn
+          >
         </div>
       </v-col>
     </v-row>
@@ -91,6 +98,9 @@ export default Vue.extend({
     },
     disconnectWallet() {
       this.$store.dispatch('disconnectWallet');
+    },
+    verifyWallet() {
+      this.$store.dispatch('verifyWallet');
     },
   },
 });

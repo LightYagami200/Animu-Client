@@ -52,12 +52,28 @@ const routes: Array<RouteConfig> = [
       },
       {
         path: ':slug',
-        name: 'Collection',
-        component: () => import('../views/collections/Collection.vue'),
-        meta: {
-          optionalUserAuth: true,
-          layout: 'AppLayoutCollection',
-        },
+        component: () => import('../components/Passthrough.vue'),
+        children: [
+          {
+            path: '',
+            name: 'Collection',
+            component: () => import('../views/collections/Collection.vue'),
+            meta: {
+              optionalUserAuth: true,
+              layout: 'AppLayoutDashboard',
+            },
+          },
+          {
+            path: 'manage',
+            name: 'ManageCollection',
+            component: () =>
+              import('../views/collections/ManageCollection.vue'),
+            meta: {
+              requiresUserAuth: true,
+              layout: 'AppLayoutManageCollection',
+            },
+          },
+        ],
       },
     ],
   },
