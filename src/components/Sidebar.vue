@@ -26,6 +26,20 @@
           </v-list-item-content>
         </v-list-item>
 
+        <v-list-item
+          link
+          :to="`/collections/${slug}`"
+          v-if="content === 'manage-collection'"
+          exact
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-backburger</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Go Back</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
         <v-list-item link to="/login" v-if="!user.discordID">
           <v-list-item-icon>
             <v-icon>mdi-login</v-icon>
@@ -35,7 +49,25 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/dashboard" v-if="user.discordID">
+        <v-list-item
+          link
+          :to="`/collections/${slug}/manage`"
+          v-if="content === 'manage-collection'"
+          exact
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-cog</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Manage</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item
+          link
+          to="/dashboard"
+          v-if="user.discordID && content === 'dashboard'"
+        >
           <v-list-item-icon>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-icon>
@@ -44,7 +76,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/collections">
+        <v-list-item link to="/collections" v-if="content === 'dashboard'">
           <v-list-item-icon>
             <v-icon>mdi-compass</v-icon>
           </v-list-item-icon>
@@ -53,7 +85,11 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/me" v-if="user.discordID">
+        <v-list-item
+          link
+          to="/me"
+          v-if="user.discordID && content === 'dashboard'"
+        >
           <v-list-item-icon>
             <v-icon>mdi-image-multiple</v-icon>
           </v-list-item-icon>
@@ -82,6 +118,7 @@ export default Vue.extend({
   name: 'Sidebar',
   props: {
     drawer: Boolean,
+    content: String,
   },
   mounted() {
     // @ts-ignore
@@ -109,6 +146,10 @@ export default Vue.extend({
     user() {
       // @ts-ignore
       return this.$store.state.user;
+    },
+    slug() {
+      // @ts-ignore
+      return this.$route.params.slug;
     },
   },
   methods: {

@@ -2,7 +2,7 @@
   <div id="app-layout-page">
     <v-row>
       <v-col cols="12" xl="2">
-        <sidebar :drawer="drawer" />
+        <sidebar :drawer="drawer" content="dashboard" />
       </v-col>
       <v-col cols="12" xl="10">
         <v-container>

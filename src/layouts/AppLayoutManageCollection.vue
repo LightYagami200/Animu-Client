@@ -1,21 +1,31 @@
 <template>
-  <div>
-    <app-layout-dashboard>
-      <manage-collection-sidebar />
-      <slot />
-    </app-layout-dashboard>
+  <div id="app-layout-page">
+    <v-row>
+      <v-col cols="12" xl="2">
+        <sidebar :drawer="drawer" content="manage-collection" />
+      </v-col>
+      <v-col cols="12" xl="10">
+        <v-container>
+          <navbar @toggleDrawer="drawer = !drawer" />
+          <slot />
+        </v-container>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
-<script lang="ts">
+<script>
+import Sidebar from '@/components/Sidebar.vue';
+import Navbar from '@/components/Navbar.vue';
 import Vue from 'vue';
-import AppLayoutDashboard from '@/layouts/AppLayoutDashboard.vue';
-import ManageCollectionSidebar from '@/components/collections/ManageCollectionSidebar.vue';
 
 export default Vue.extend({
-  components: {
-    AppLayoutDashboard,
-    ManageCollectionSidebar,
+  components: { Sidebar, Navbar },
+  name: 'AppLayoutPage',
+  data() {
+    return {
+      drawer: true,
+    };
   },
 });
 </script>
