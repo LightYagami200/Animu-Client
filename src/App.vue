@@ -51,10 +51,39 @@ export default Vue.extend({
   font-family: 'Poppins', sans-serif;
 }
 
+// Scrollbar
+body::-webkit-scrollbar {
+  width: 4px;
+}
+
+body::-webkit-scrollbar-track {
+  background: none;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #2196f3;
+  border-radius: 8px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  opacity: 0.87;
+}
+
 html {
   overflow-y: auto !important;
 }
 
+p,
+span {
+  opacity: 0.6;
+}
+
+body,
 .theme--dark.v-application {
   background: #000000 !important;
 }
@@ -65,6 +94,12 @@ html {
 
 .v-btn__content {
   overflow: visible !important;
+}
+
+div[role='combobox'] {
+  .v-input__icon {
+    display: none !important;
+  }
 }
 
 .home,

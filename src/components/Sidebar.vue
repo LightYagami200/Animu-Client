@@ -4,7 +4,7 @@
     <v-navigation-drawer
       dark
       permanent
-      absolute
+      fixed
       v-if="drawer"
       class="nav-drawer"
     >
