@@ -83,6 +83,10 @@ span {
   opacity: 0.6;
 }
 
+.v-btn span {
+  opacity: 1 !important;
+}
+
 body,
 .theme--dark.v-application {
   background: #000000 !important;
@@ -115,6 +119,11 @@ div[role='combobox'] {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.v-align {
+  margin-top: 50vh !important;
+  transform: translateY(-50%) !important;
 }
 
 // Overwrite default vuetify components

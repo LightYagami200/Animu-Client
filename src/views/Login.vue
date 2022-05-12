@@ -63,10 +63,3 @@ export default Vue.extend({
   },
 });
 </script>
-
-<style lang="scss">
-.v-align {
-  margin-top: 50vh;
-  transform: translateY(-50%);
-}
-</style>
