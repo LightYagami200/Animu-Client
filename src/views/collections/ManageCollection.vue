@@ -255,6 +255,7 @@
                     !collectionSettings.isValid ||
                     collectionSettings.isLoading
                   "
+                  :loading="collectionSettings.isLoading"
                 >
                   <v-icon left>mdi-content-save</v-icon>
                   Save
@@ -301,7 +302,6 @@ export default Vue.extend({
       collectionSettings: {
         isValid: false,
         isLoading: false,
-        id: '',
         name: '',
         description: '',
         socials: {
@@ -312,7 +312,7 @@ export default Vue.extend({
         },
         logo: '',
         banner: '',
-        tags: '',
+        tags: [],
       },
       collectionLoading: true,
     };
@@ -324,9 +324,10 @@ export default Vue.extend({
   },
   methods: {
     async saveCollectionSettings() {
+      this.collectionSettings.isLoading = true;
       try {
         await axios.put(
-          `${host}/collections/${this.collectionSettings.id}`,
+          `${host}/collections/${this.$route.params.slug}`,
           this.collectionSettings,
           {
             headers: {
@@ -343,6 +344,8 @@ export default Vue.extend({
           'Error saving collection settings - Please try again',
         );
       }
+
+      this.collectionSettings.isLoading = false;
     },
   },
 });
