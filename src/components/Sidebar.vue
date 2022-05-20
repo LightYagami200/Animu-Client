@@ -65,6 +65,20 @@
 
         <v-list-item
           link
+          :to="`/collections/${slug}/manage/nfts`"
+          v-if="content === 'manage-collection'"
+          exact
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-image-multiple</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>NFTs</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item
+          link
           to="/dashboard"
           v-if="user.discordID && content === 'dashboard'"
         >

@@ -108,13 +108,22 @@
                     <p>Logo for your Collection</p></v-col
                   >
                   <v-col cols="6" class="text-center">
+                    <input
+                      type="file"
+                      ref="logo"
+                      style="display: none"
+                      accept="image/png, image/jpeg"
+                      v-on:change="uploadLogo"
+                    />
                     <v-avatar size="80">
                       <v-img
                         :src="
-                          collectionSettings.image ||
+                          collectionSettings.logo ||
                           'https://peacehumanity.org/wp-content/uploads/2021/10/placeholder-236.png'
                         "
+                        height="100"
                         content-class="align-center justify-center"
+                        @click="$refs.logo.click()"
                       >
                         <v-btn icon>
                           <v-icon color="black" size="40"
@@ -131,6 +140,13 @@
                     <p>Banner for your Collection</p></v-col
                   >
                   <v-col cols="6" class="text-center">
+                    <input
+                      type="file"
+                      ref="banner"
+                      style="display: none"
+                      accept="image/png, image/jpeg"
+                      v-on:change="uploadBanner"
+                    />
                     <v-img
                       aspect-ratio="1.77778"
                       cover
@@ -138,8 +154,10 @@
                         collectionSettings.banner ||
                         'https://images.unsplash.com/photo-1630710478039-9c680b99f800?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8'
                       "
+                      height="200"
                       class="align-center rounded-lg"
                       content-class="align-center justify-center"
+                      @click="$refs.banner.click()"
                     >
                       <v-btn icon>
                         <v-icon size="40">mdi-pencil</v-icon>
@@ -291,6 +309,8 @@ export default Vue.extend({
       },
     );
 
+    console.log(collection);
+
     this.collectionSettings = {
       ...this.collectionSettings,
       ...collection,
@@ -302,6 +322,8 @@ export default Vue.extend({
       collectionSettings: {
         isValid: false,
         isLoading: false,
+        bannerSignedURL: '',
+        logoSignedURL: '',
         name: '',
         description: '',
         socials: {
@@ -346,6 +368,82 @@ export default Vue.extend({
       }
 
       this.collectionSettings.isLoading = false;
+    },
+    async uploadBanner(event: Event) {
+      try {
+        // @ts-ignore
+        const file = event.target.files[0] as File;
+
+        console.log({ file });
+
+        [this.collectionSettings.banner] =
+          this.collectionSettings.bannerSignedURL.split('?');
+
+        await axios.put(this.collectionSettings.bannerSignedURL, file, {
+          headers: {
+            'Content-Type': file.type,
+          },
+        });
+
+        // -> Update banner
+        await axios.put(
+          `${host}/collections/${this.$route.params.slug}`,
+          {
+            banner: this.collectionSettings.banner,
+          },
+          {
+            headers: {
+              'x-access-token': localStorage.getItem('ANIMU_USER_TOKEN')!,
+            },
+          },
+        );
+
+        this.$store.commit('displaySnackbar', 'Collection banner changed');
+      } catch (e) {
+        console.log({ e });
+        this.$store.commit(
+          'displaySnackbar',
+          'Error uploading image - Please try again',
+        );
+      }
+    },
+    async uploadLogo(event: Event) {
+      try {
+        // @ts-ignore
+        const file = event.target.files[0] as File;
+
+        console.log({ file });
+
+        [this.collectionSettings.logo] =
+          this.collectionSettings.logoSignedURL.split('?');
+
+        await axios.put(this.collectionSettings.logoSignedURL, file, {
+          headers: {
+            'Content-Type': file.type,
+          },
+        });
+
+        // -> Update logo
+        await axios.put(
+          `${host}/collections/${this.$route.params.slug}`,
+          {
+            logo: this.collectionSettings.logo,
+          },
+          {
+            headers: {
+              'x-access-token': localStorage.getItem('ANIMU_USER_TOKEN')!,
+            },
+          },
+        );
+
+        this.$store.commit('displaySnackbar', 'Collection logo changed');
+      } catch (e) {
+        console.log({ e });
+        this.$store.commit(
+          'displaySnackbar',
+          'Error uploading image - Please try again',
+        );
+      }
     },
   },
 });
