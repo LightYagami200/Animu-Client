@@ -293,7 +293,7 @@ import axios from 'axios';
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'Collection',
+  name: 'ManageCollection',
   async mounted() {
     const token = localStorage.getItem('ANIMU_USER_TOKEN');
 

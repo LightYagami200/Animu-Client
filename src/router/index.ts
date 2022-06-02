@@ -65,13 +65,29 @@ const routes: Array<RouteConfig> = [
           },
           {
             path: 'manage',
-            name: 'ManageCollection',
-            component: () =>
-              import('../views/collections/ManageCollection.vue'),
-            meta: {
-              requiresUserAuth: true,
-              layout: 'AppLayoutManageCollection',
-            },
+            component: () => import('../components/Passthrough.vue'),
+            children: [
+              {
+                path: '',
+                name: 'ManageCollection',
+                component: () =>
+                  import('../views/collections/ManageCollection.vue'),
+                meta: {
+                  requiresUserAuth: true,
+                  layout: 'AppLayoutManageCollection',
+                },
+              },
+              {
+                path: 'nfts',
+                name: 'ManageCollectionNFTs',
+                component: () =>
+                  import('../views/collections/ManageCollectionNFTs.vue'),
+                meta: {
+                  requiresUserAuth: true,
+                  layout: 'AppLayoutManageCollection',
+                },
+              },
+            ],
           },
         ],
       },
