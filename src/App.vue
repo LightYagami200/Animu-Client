@@ -126,7 +126,7 @@ div[role='combobox'] {
   transform: translateY(-50%) !important;
 }
 
-// Overwrite default vuetify components
+// Overwrite default components
 .v-navigation-drawer {
   background: rgba(255, 255, 255, 0.1) !important;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -142,6 +142,16 @@ div[role='combobox'] {
   display: none;
 }
 
+.filepond--wrapper {
+  background: #00000077 !important;
+  border-radius: 8px;
+}
+
+.filepond--panel-root {
+  background-color: transparent !important;
+}
+
+// Custom styles
 .glass-list {
   background: rgba(255, 255, 255, 0.1) !important;
   border-radius: 16px;
